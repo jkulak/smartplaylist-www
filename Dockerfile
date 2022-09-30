@@ -4,6 +4,6 @@ COPY ./app ./
 RUN yarn && \
     yarn build
 
-FROM joseluisq/static-web-server:2.12
+FROM nginx:1.23-alpine
 WORKDIR /app
 COPY --from=builder /app/build ./
