@@ -1,9 +1,8 @@
-FROM node:17-alpine3.14 AS builder
+FROM node:18.10.0-alpine3.16
 WORKDIR /app
 COPY ./app ./
 RUN yarn && \
-    yarn build
+    yarn build && \
+    yarn global add serve
 
-FROM nginx:1.23-alpine
-WORKDIR /app
-COPY --from=builder /app/build ./
+CMD [ "serve", "-s", "build", "-p", "3000", "--no-clipboard" ]

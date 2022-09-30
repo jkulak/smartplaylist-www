@@ -193,7 +193,7 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <h1>Spotify Smart Playlists 🤴🏾</h1>
+                <h1>Spotify Smart Playlists 🤴🏾🍸</h1>
             </header>
             <div id="main">
                 <Stats totalResults={totalResults} totalTracks={totalTracks} />
