@@ -5,7 +5,7 @@ import Player from "./Player";
 import Stats from "./Stats";
 import TrackList from "./TrackList";
 
-const HOST = `https://smartplaylist.me:3000`;
+const API_URL = `/api`;
 const FETCH_DELAY = 500;
 
 function App() {
@@ -68,7 +68,7 @@ function App() {
     });
 
     const fetchTotalTracks = () => {
-        let url = HOST;
+        let url = API_URL;
 
         url += `/tracks?select=spotify_id`;
         url += `&limit=1`;
@@ -86,7 +86,7 @@ function App() {
         const LIMIT = 100;
         const USER_ID = `_jkulak`;
 
-        let url = HOST;
+        let url = API_URL;
         url += `/tracks`;
         url += `?select=spotify_id,all_artists,name,genres,release_date,tempo,popularity,danceability,energy,speechiness,acousticness,instrumentalness,liveness,valence,main_artist_popularity,main_artist_followers,key,preview_url`;
 
