@@ -5,4 +5,4 @@ RUN yarn && \
     yarn build && \
     yarn global add serve
 
-CMD [ "serve", "-s", "build", "-p", "3000", "--no-clipboard" ]
+CMD [ "serve", "-s", "build", "-p", "3001", "--no-clipboard" ]
