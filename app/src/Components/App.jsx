@@ -5,7 +5,7 @@ import Player from "./Player";
 import Stats from "./Stats";
 import TrackList from "./TrackList";
 
-const HOST = `http://188.68.231.182:3000`;
+const HOST = `https://smartplaylist.me:3000`;
 const FETCH_DELAY = 500;
 
 function App() {
