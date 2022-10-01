@@ -6,7 +6,7 @@ import Stats from "./Stats";
 import TrackList from "./TrackList";
 import Loader from "./Loader";
 
-const API_URL = `http://localhost:3000`;
+const API_URL = `/api`;
 const FETCH_DELAY = 500;
 
 function App() {
