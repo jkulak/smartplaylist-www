@@ -1,13 +1,14 @@
 .lds-spinner {
     color: official;
     display: inline-block;
-    position: relative;
     width: 80px;
     height: 80px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: black;
+    background-color: aquamarine;
+    padding: 10px;
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    z-index: 1;
 }
 .lds-spinner div {
     transform-origin: 40px 40px;

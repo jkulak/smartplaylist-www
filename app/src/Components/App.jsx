@@ -5,12 +5,15 @@ import Player from "./Player";
 import Stats from "./Stats";
 import TrackList from "./TrackList";
 import Loader from "./Loader";
+import LoginPage from "./LoginPage";
+import Menu from "./Menu";
 
 const API_URL = `/api`;
 const FETCH_DELAY = 500;
 
-function App() {
+const App = () => {
     const [isLoading, setIsLoading] = useState(0);
+    const [isLoggedIn, setIsLoggedIn] = useState(0);
     const [totalResults, setTotalResults] = useState(0);
     const [totalTracks, setTotalTracks] = useState(0);
     const [previewUrl, setPreviewUrl] = useState("");
@@ -173,7 +176,7 @@ function App() {
     // Run on first render, ex componentDidMount()
     // Second parameter is `[]` to run only when an empty table changes (which results in only one run)
     useEffect(() => {
-        document.getElementById("query").focus();
+        // document.getElementById("query").focus();
         // TODO: Create "initialLoad" view in database to grab all needed initial data
         // Like: total tracks, max artist followers?
         fetchTotalTracks();
@@ -192,29 +195,51 @@ function App() {
         }));
     };
 
+    const logInUser = (user) => {
+        setIsLoggedIn(user);
+    };
+
     const setPlayerSong = (url) => {
         setPreviewUrl(url);
     };
 
-    return (
-        <div className="App">
-            <header className="App-header">
-                <h1>Spotify Smart Playlists 🥁</h1>
-            </header>
-            <div id="main">
-                <Stats totalResults={totalResults} totalTracks={totalTracks} />
-                <Loader isLoading={isLoading} />
-                <Form handler={handleFormChange} values={form} />
+    const logOut = () => {
+        setIsLoggedIn(false);
+    };
 
-                <TrackList
-                    tracks={tracks}
-                    values={form}
-                    onPlayClick={setPlayerSong}
-                />
-                <Player previewUrl={previewUrl} />
+    useEffect(() => {
+        if (!isLoggedIn) window.location.hash = "";
+    }, [isLoggedIn]);
+
+    if (isLoggedIn) {
+        return (
+            <div className="App">
+                <header className="App-header">
+                    <h1>Spotify Smart Playlists 🥁</h1>
+                </header>
+                <div id="menu">
+                    <Menu onClick={logOut} />
+                </div>
+                <div id="main">
+                    <Stats
+                        totalResults={totalResults}
+                        totalTracks={totalTracks}
+                    />
+                    <Loader isLoading={isLoading} />
+                    <Form handler={handleFormChange} values={form} />
+
+                    <TrackList
+                        tracks={tracks}
+                        values={form}
+                        onPlayClick={setPlayerSong}
+                    />
+                    <Player previewUrl={previewUrl} />
+                </div>
             </div>
-        </div>
-    );
-}
+        );
+    } else {
+        return <LoginPage logInUser={logInUser} />;
+    }
+};
 
 export default App;
