@@ -4,11 +4,13 @@ import Form from "./Form";
 import Player from "./Player";
 import Stats from "./Stats";
 import TrackList from "./TrackList";
+import Loader from "./Loader";
 
-const API_URL = `/api`;
+const API_URL = `http://localhost:3000`;
 const FETCH_DELAY = 500;
 
 function App() {
+    const [isLoading, setIsLoading] = useState(0);
     const [totalResults, setTotalResults] = useState(0);
     const [totalTracks, setTotalTracks] = useState(0);
     const [previewUrl, setPreviewUrl] = useState("");
@@ -74,17 +76,19 @@ function App() {
         url += `&limit=1`;
         url += `&energy=not.is.null`;
 
+        setIsLoading((prev) => prev + 1);
+
         fetch(url, {
             headers: { Prefer: "count=exact" },
         }).then((response) => {
             let count = response.headers.get("Content-Range");
             setTotalTracks(count.split("/")[1]);
+            setIsLoading((prev) => prev - 1);
         });
     };
 
     const fetchData = (form) => {
         const LIMIT = 100;
-        const USER_ID = `_jkulak`;
 
         let url = API_URL;
         url += `/tracks`;
@@ -127,12 +131,14 @@ function App() {
         url += `&release_date=gte.${form.releaseDate}`;
         if (form.key !== "any") url += `&key=eq.${form.key}`;
 
+        setIsLoading((prev) => prev + 1);
         fetch(url, {
             headers: { Prefer: "count=exact" },
         })
             .then((response) => {
                 let count = response.headers.get("Content-Range");
                 setTotalResults(count.split("/")[1]);
+                setIsLoading((prev) => prev - 1);
                 return response.json();
             })
             .then((data) => {
@@ -197,6 +203,7 @@ function App() {
             </header>
             <div id="main">
                 <Stats totalResults={totalResults} totalTracks={totalTracks} />
+                <Loader isLoading={isLoading} />
                 <Form handler={handleFormChange} values={form} />
 
                 <TrackList
