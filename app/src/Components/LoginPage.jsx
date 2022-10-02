@@ -2,8 +2,15 @@ import React, { useEffect } from "react";
 import "./LoginPage.css";
 import imgLogo from "./../Images/Spotify_Logo_CMYK_Black.png";
 
-const CLIENT_ID = "15b63d73610d491fa65412cb91f0eddb";
-const REDIRECT_URI = "http://localhost:3001/";
+const CLIENT_ID =
+    process.env.NODE_ENV === "production"
+        ? "da581e129b9c40b8a6048468d61b304d"
+        : "15b63d73610d491fa65412cb91f0eddb";
+const REDIRECT_URI =
+    process.env.NODE_ENV === "production"
+        ? "https://smartplaylist.me/"
+        : "http://localhost:3001/";
+
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "token";
 const SCOPES = [

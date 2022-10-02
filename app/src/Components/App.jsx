@@ -8,7 +8,8 @@ import Loader from "./Loader";
 import LoginPage from "./LoginPage";
 import Menu from "./Menu";
 
-const API_URL = `/api`;
+const API_URL =
+    process.env.NODE_ENV === "production" ? "/api" : "http://localhost:3000";
 const FETCH_DELAY = 500;
 
 const App = () => {
