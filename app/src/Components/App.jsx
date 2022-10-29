@@ -137,7 +137,7 @@ const App = () => {
 
         setIsLoading((prev) => prev + 1);
         fetch(url, {
-            headers: { Prefer: "count=planned" },
+            headers: { Prefer: "count=exact" },
         })
             .then((response) => {
                 let count = response.headers.get("Content-Range");
