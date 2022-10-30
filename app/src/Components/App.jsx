@@ -15,12 +15,13 @@ const FASTAPI_URL =
     process.env.NODE_ENV === "production"
         ? "/fastapi"
         : "http://localhost:8008";
-const FETCH_DELAY = 500;
+const FETCH_DELAY = 300;
 
 const App = () => {
     const [isLoading, setIsLoading] = useState(0);
     const [isLoggedIn, setIsLoggedIn] = useState(0);
-    const [totalResults, setTotalResults] = useState("🤷🏽");
+    const [totalResults, setTotalResults] = useState("500+");
+    const [estimatedResults, setEstimatedResults] = useState("🤷🏽");
     const [totalTracks, setTotalTracks] = useState(0);
     const [previewUrl, setPreviewUrl] = useState("");
     const [tracks, setTracks] = useState([]);
@@ -86,16 +87,14 @@ const App = () => {
         fetch(url)
             .then((response) => response.json())
             .then((data) => {
-                setTotalTracks(data["total_tracks"]);
+                setTotalTracks(data["tracks_with_audiofeature"]);
             });
-        // console.log(response);
-        // let count = response.headers.get("Content-Range");
 
         setIsLoading((prev) => prev - 1);
     };
 
     const fetchData = (form) => {
-        const LIMIT = 100;
+        const LIMIT = 500;
 
         let url = API_URL;
         url += `/tracks`;
@@ -119,37 +118,46 @@ const App = () => {
         url += `&liveness=gte.${form.minLiveness}&liveness=lte.${form.maxLiveness}`;
         url += `&valence=gte.${form.minValence}&valence=lte.${form.maxValence}`;
 
-        const searchQuery = form.query.trim().replace(/\s\s+/g, " ").split(" ");
-        searchQuery.forEach((element) => {
-            url += `&or=(name.ilike.*${element}*,all_artists_string.ilike.*${element}*)`;
-        });
+        if (form.query.length > 0) {
+            const searchQuery = form.query
+                .trim()
+                .replace(/\s\s+/g, " ")
+                .split(" ");
+            searchQuery.forEach((element) => {
+                url += `&or=(name.like.*${element}*,all_artists_string.like.*${element}*)`;
+            });
+        }
 
-        const genresQuery = form.genres
-            .trim()
-            .replace(/\s\s+/g, " ")
-            .split(" ");
+        if (form.genres.length > 0) {
+            const genresQuery = form.genres
+                .trim()
+                .replace(/\s\s+/g, " ")
+                .split(" ");
+            url += `&or=(`;
+            genresQuery.forEach((element) => {
+                url += `genres_string.like.*${element}*,`;
+            });
+            url = url.slice(0, -1);
+            url += `)`;
+        }
+
         // Use `or` or `and` depending on the logic you need (genre has any or all of the strings)
-        url += `&or=(`;
-        genresQuery.forEach((element) => {
-            url += `genres_string.ilike.*${element}*,`;
-        });
-        url = url.slice(0, -1);
-        url += `)`;
         url += `&release_date=gte.${form.releaseDate}`;
         if (form.key !== "any") url += `&key=eq.${form.key}`;
 
         setIsLoading((prev) => prev + 1);
         fetch(url, {
-            headers: { Prefer: "count=exact" },
+            headers: { Prefer: "count=estimated" },
         })
             .then((response) => {
                 let count = response.headers.get("Content-Range");
-                setTotalResults(count.split("/")[1]);
+                setEstimatedResults(parseInt(count.split("/")[1]));
                 setIsLoading((prev) => prev - 1);
                 return response.json();
             })
             .then((data) => {
                 setTracks(data);
+                setTotalResults(data.length);
             });
     };
 
@@ -225,7 +233,8 @@ const App = () => {
                 <div id="main">
                     <Stats
                         totalResults={totalResults}
-                        totalTracks={totalTracks.toLocaleString("en-US")}
+                        estimatedResults={estimatedResults}
+                        totalTracks={totalTracks}
                     />
                     <Loader isLoading={isLoading} />
                     <Form handler={handleFormChange} values={form} />

@@ -1,13 +1,18 @@
 import React from "react";
 import "./Stats.css";
 
-const Stats = (props) => {
-    return (
-        <ul id="stats">
-            <li>Results: {props.totalResults}</li>
-            <li>Total tracks: {props.totalTracks}</li>
-        </ul>
-    );
-};
+const Stats = (props) => (
+    <ul id="stats">
+        <li>
+            Results:
+            {props.estimatedResults > 500 ? (
+                <> ~{props.estimatedResults.toLocaleString("en-US")}</>
+            ) : (
+                <> {props.totalResults}</>
+            )}
+        </li>
+        <li>Total tracks: {props.totalTracks.toLocaleString("en-US")}</li>
+    </ul>
+);
 
 export default Stats;
