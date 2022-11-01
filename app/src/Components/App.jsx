@@ -129,7 +129,7 @@ const App = () => {
                 .split(",");
             console.log("searchQuery", searchQuery);
             searchQuery.forEach((element) => {
-                url += `&or=(name_fts_string.like.*${element}*,all_artists_string.like.*${element}*)`;
+                url += `&or=(name_fts_string.like.*${element.trim()}*,all_artists_string.like.*${element.trim()}*)`;
             });
         }
 
@@ -141,7 +141,7 @@ const App = () => {
             url += `&or=(`;
             console.log("genresQuery", genresQuery);
             genresQuery.forEach((element) => {
-                url += `genres_string.like.*${element}*,`;
+                url += `genres_string.like.*${element.trim()}*,`;
             });
             url = url.slice(0, -1);
             url += `)`;
