@@ -11,3 +11,8 @@
 .col-releasedate {
     min-width: 100px;
 }
+
+.link {
+    cursor: pointer;
+    text-decoration: underline;
+}

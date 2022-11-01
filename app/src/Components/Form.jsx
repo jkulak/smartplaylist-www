@@ -89,7 +89,7 @@ function Form(props) {
                 <div className="filter">
                     <label htmlFor="input">Artist or title</label>
                     <input
-                        type="text"
+                        type="search"
                         id="query"
                         name="query"
                         onChange={props.handler}
@@ -99,7 +99,7 @@ function Form(props) {
                         Genres (separate with commas)
                     </label>
                     <input
-                        type="text"
+                        type="search"
                         id="genres"
                         name="genres"
                         onChange={props.handler}

@@ -29,9 +29,9 @@ const App = () => {
     const [stats, setStats] = useState([]);
 
     const [form, setForm] = useState({
-        query: "",
-        genres: "",
-        releaseDate: "2022-01-01",
+        query: "mok",
+        genres: "bass",
+        releaseDate: "2021-01-01",
 
         minTempo: 80,
         maxTempo: 210,
@@ -204,6 +204,22 @@ const App = () => {
         }));
     };
 
+    const setQuery = (name) => {
+        name = form.query !== name ? name : "";
+        setForm((prev) => ({
+            ...prev,
+            query: name,
+        }));
+    };
+
+    const setGenre = (name) => {
+        name = form.genres !== name ? name : "";
+        setForm((prev) => ({
+            ...prev,
+            genres: name,
+        }));
+    };
+
     const logInUser = (user) => {
         setIsLoggedIn(user);
     };
@@ -238,6 +254,8 @@ const App = () => {
                         tracks={tracks}
                         values={form}
                         onPlayClick={setPlayerSong}
+                        handleArtistClick={setQuery}
+                        handleGenreClick={setGenre}
                     />
                     <Player previewUrl={previewUrl} />
                     <StatsForNerds stats={stats}></StatsForNerds>

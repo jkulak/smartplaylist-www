@@ -65,23 +65,37 @@ const TrackList = (props) => {
                             <tr key={track.spotify_id}>
                                 <td>{i + 1}</td>
                                 <td>
-                                    <PlayController
-                                        onPlayClick={() =>
-                                            props.onPlayClick(track.preview_url)
-                                        }
-                                    />
+                                    {track.preview_url !== null && (
+                                        <PlayController
+                                            onPlayClick={() =>
+                                                props.onPlayClick(
+                                                    track.preview_url
+                                                )
+                                            }
+                                        />
+                                    )}
                                 </td>
                                 <td>
                                     {track.all_artists.map((artist, i) => (
                                         <span key={i}>
                                             {i > 0 && ", "}
-                                            <Highlighter
-                                                highlightClassName="highlight"
-                                                highlightTag="span"
-                                                searchWords={queryList}
-                                                autoEscape={false}
-                                                textToHighlight={artist}
-                                            />
+                                            <span
+                                                onClick={(e) =>
+                                                    props.handleArtistClick(
+                                                        e.currentTarget
+                                                            .textContent
+                                                    )
+                                                }
+                                                className="link"
+                                            >
+                                                <Highlighter
+                                                    highlightClassName="highlight"
+                                                    highlightTag="span"
+                                                    searchWords={queryList}
+                                                    autoEscape={false}
+                                                    textToHighlight={artist}
+                                                />
+                                            </span>
                                         </span>
                                     ))}
                                 </td>
@@ -98,13 +112,23 @@ const TrackList = (props) => {
                                     {track.genres.map((genre, i) => (
                                         <span key={i}>
                                             {i > 0 && ", "}
-                                            <Highlighter
-                                                highlightClassName="highlight"
-                                                highlightTag="span"
-                                                searchWords={genresList}
-                                                autoEscape={false}
-                                                textToHighlight={genre}
-                                            />
+                                            <span
+                                                onClick={(e) =>
+                                                    props.handleGenreClick(
+                                                        e.currentTarget
+                                                            .textContent
+                                                    )
+                                                }
+                                                className="link"
+                                            >
+                                                <Highlighter
+                                                    highlightClassName="highlight"
+                                                    highlightTag="span"
+                                                    searchWords={genresList}
+                                                    autoEscape={false}
+                                                    textToHighlight={genre}
+                                                />
+                                            </span>
                                         </span>
                                     ))}
                                 </td>
