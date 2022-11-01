@@ -127,7 +127,7 @@ const App = () => {
                 .trim()
                 .replace(/\s\s+/g, " ")
                 .split(",");
-            console.log("searchQuery, searchQuery");
+            console.log("searchQuery", searchQuery);
             searchQuery.forEach((element) => {
                 url += `&or=(name_fts_string.like.*${element}*,all_artists_string.like.*${element}*)`;
             });
