@@ -21,7 +21,7 @@ const FETCH_DELAY = 300;
 const App = () => {
     const [isLoading, setIsLoading] = useState(0);
     const [isLoggedIn, setIsLoggedIn] = useState(0);
-    const [totalResults, setTotalResults] = useState("500+");
+    const [totalResults, setTotalResults] = useState("🤷🏽");
     const [estimatedResults, setEstimatedResults] = useState("🤷🏽");
     const [totalTracks, setTotalTracks] = useState(0);
     const [previewUrl, setPreviewUrl] = useState("");
@@ -98,7 +98,7 @@ const App = () => {
     };
 
     const fetchData = (form) => {
-        const LIMIT = 500;
+        const LIMIT = 100;
 
         let url = API_URL;
         url += `/tracks`;
@@ -123,23 +123,15 @@ const App = () => {
         url += `&valence=gte.${form.minValence}&valence=lte.${form.maxValence}`;
 
         if (form.query.length > 0) {
-            const searchQuery = form.query
-                .trim()
-                .replace(/\s\s+/g, " ")
-                .split(",");
-            console.log("searchQuery", searchQuery);
+            const searchQuery = form.query.toLowerCase().split(",");
             searchQuery.forEach((element) => {
                 url += `&or=(name_fts_string.like.*${element.trim()}*,all_artists_string.like.*${element.trim()}*)`;
             });
         }
 
         if (form.genres.length > 0) {
-            const genresQuery = form.genres
-                .trim()
-                .replace(/\s\s+/g, " ")
-                .split(",");
+            const genresQuery = form.genres.toLowerCase().split(",");
             url += `&or=(`;
-            console.log("genresQuery", genresQuery);
             genresQuery.forEach((element) => {
                 url += `genres_string.like.*${element.trim()}*,`;
             });
