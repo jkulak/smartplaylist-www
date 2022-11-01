@@ -51,27 +51,27 @@ const App = () => {
 
         minDanceability: 0,
         maxDanceability: 1000,
-        showColumnDanceability: "true",
+        showColumnDanceability: "false",
 
         minEnergy: 0,
         maxEnergy: 1000,
-        showColumnEnergy: "true",
+        showColumnEnergy: "false",
 
         minSpeechiness: 0,
         maxSpeechiness: 1000,
-        showColumnSpeechiness: "true",
+        showColumnSpeechiness: "false",
 
         minAcousticness: 0,
         maxAcousticness: 1000,
-        showColumnAcousticness: "true",
+        showColumnAcousticness: "false",
 
         minInstrumentalness: 0,
         maxInstrumentalness: 1000,
-        showColumnInstrumentalness: "true",
+        showColumnInstrumentalness: "false",
 
         minLiveness: 0,
         maxLiveness: 1000,
-        showColumnLiveness: "true",
+        showColumnLiveness: "false",
 
         minValence: 0,
         maxValence: 1000,

@@ -7,3 +7,7 @@
     background-color: rgba(60, 255, 135, 0.241);
     /* font-weight: bold; */
 }
+
+.col-releasedate {
+    min-width: 100px;
+}

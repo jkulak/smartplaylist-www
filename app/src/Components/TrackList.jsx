@@ -26,82 +26,36 @@ const TrackList = (props) => {
                             <th>Artists</th>
                             <th>Title</th>
                             <th>Genres</th>
-                            <th>Release date</th>
+                            <th className="col-releasedate">Release date</th>
                             {props.values.showColumnTempo === "true" && (
-                                <th>Tempo (bpm)</th>
+                                <th>BPM</th>
                             )}
                             {props.values.showColumnPopularity === "true" && (
-                                <th>
-                                    Track popularity
-                                    <br />
-                                    [0-100]
-                                </th>
+                                <th>Track popularity</th>
                             )}
                             {props.values.showColumnMainArtistPopularity ===
-                                "true" && (
-                                <th>
-                                    Main artist popularity
-                                    <br />
-                                    [0-100]
-                                </th>
-                            )}
+                                "true" && <th>Main artist popularity</th>}
                             {props.values.showColumnMainArtistFollowers ===
-                                "true" && (
-                                <th>
-                                    Main artist followers
-                                    <br />
-                                    [0-50mln]
-                                </th>
-                            )}
+                                "true" && <th>Main artist followers</th>}
                             {props.values.showColumnDanceability === "true" && (
-                                <th>
-                                    Danceability
-                                    <br />
-                                    [0-1000]
-                                </th>
+                                <th>Danceability</th>
                             )}
                             {props.values.showColumnEnergy === "true" && (
-                                <th>
-                                    Energy
-                                    <br />
-                                    [0-1000]
-                                </th>
+                                <th>Energy</th>
                             )}
                             {props.values.showColumnSpeechiness === "true" && (
-                                <th>
-                                    Speechiness
-                                    <br />
-                                    [0-1000]
-                                </th>
+                                <th>Speechiness</th>
                             )}
                             {props.values.showColumnAcousticness === "true" && (
-                                <th>
-                                    Acousticness
-                                    <br />
-                                    [0-1000]
-                                </th>
+                                <th>Acousticness</th>
                             )}
                             {props.values.showColumnInstrumentalness ===
-                                "true" && (
-                                <th>
-                                    Instrumentalness
-                                    <br />
-                                    [0-1000]
-                                </th>
-                            )}
+                                "true" && <th>Instrumentalness</th>}
                             {props.values.showColumnLiveness === "true" && (
-                                <th>
-                                    Liveness
-                                    <br />
-                                    [0-1000]
-                                </th>
+                                <th>Liveness</th>
                             )}
                             {props.values.showColumnValence === "true" && (
-                                <th>
-                                    Valence
-                                    <br />
-                                    [0-1000]
-                                </th>
+                                <th>Valence</th>
                             )}
                             <th>Key</th>
                         </tr>
