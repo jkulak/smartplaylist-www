@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import "./LoginPage.css";
-import imgLogo from "./../Images/Spotify_Logo_CMYK_Black.png";
 
 const CLIENT_ID =
     process.env.NODE_ENV === "production"
@@ -55,11 +54,11 @@ const LoginPage = (props) => {
     });
     return (
         <div id="loginPage">
-            <img src={imgLogo} alt="" />
-            <h1>Spotify Smart Playlists</h1>
-            <button className="link" onClick={handleLogin}>
-                Login via Spotify
-            </button>
+            {/* <img src={imgLogo} alt="" /> */}
+            <h1>Smart Playlists</h1>
+            <span className="link" onClick={handleLogin}>
+                Continue with Spotify
+            </span>
         </div>
     );
 };

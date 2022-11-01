@@ -1,10 +1,10 @@
 #tracks {
-    font-size: 14px;
+    font-size: 15px;
     margin-bottom: 112px;
 }
 
 .highlight {
-    background-color: rgba(60, 255, 135, 0.241);
+    background-color: #debac05b;
     /* font-weight: bold; */
 }
 
@@ -12,7 +12,7 @@
     min-width: 100px;
 }
 
-.link {
+#tracks .link {
     cursor: pointer;
     text-decoration: underline;
 }

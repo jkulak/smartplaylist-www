@@ -16,12 +16,12 @@ const TrackList = (props) => {
 
     return (
         <div id="tracks">
-            <h2>Tracks</h2>
+            <h2 class="hidden">Tracks</h2>
             {props.tracks.length > 0 && (
                 <table className="pure-table pure-table-bordered">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            {/* <th>#</th> */}
                             <th>Play</th>
                             <th>Artists</th>
                             <th>Title</th>
@@ -63,7 +63,7 @@ const TrackList = (props) => {
                     <tbody>
                         {props.tracks.map((track, i) => (
                             <tr key={track.spotify_id}>
-                                <td>{i + 1}</td>
+                                {/* <td>{i + 1}</td> */}
                                 <td>
                                     {track.preview_url !== null && (
                                         <PlayController

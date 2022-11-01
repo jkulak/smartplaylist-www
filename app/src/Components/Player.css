@@ -1,11 +1,10 @@
 #player {
-    background-color: rgb(216, 127, 127);
+    background-color: var(--baby-pink);
     opacity: 0.9;
     position: fixed;
-    /* width: 100%; */
+    min-width: 400px;
     height: 40px;
     padding: 16px;
     bottom: 0;
-    left: 16px;
     right: 16px;
 }

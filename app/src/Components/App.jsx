@@ -6,7 +6,7 @@ import Stats from "./Stats";
 import TrackList from "./TrackList";
 import Loader from "./Loader";
 import LoginPage from "./LoginPage";
-import Menu from "./Menu";
+import User from "./User";
 import StatsForNerds from "./StatsForNerds";
 
 const API_URL =
@@ -235,30 +235,64 @@ const App = () => {
     if (isLoggedIn) {
         return (
             <div className="App">
-                <header className="App-header">
-                    <h1>Smart Playlists 🎧</h1>
-                </header>
-                <div id="menu">
-                    <Menu onClick={logOut} />
-                </div>
-                <div id="main">
-                    <Stats
-                        totalResults={totalResults}
-                        estimatedResults={estimatedResults}
-                        totalTracks={totalTracks}
-                    />
-                    <Loader isLoading={isLoading} />
-                    <Form handler={handleFormChange} values={form} />
+                <div class="pure-g">
+                    <div class="pure-u-1">
+                        <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                            <span class="pure-menu-heading">
+                                🎧 Smart Playlists
+                            </span>
 
-                    <TrackList
-                        tracks={tracks}
-                        values={form}
-                        onPlayClick={setPlayerSong}
-                        handleArtistClick={setQuery}
-                        handleGenreClick={setGenre}
-                    />
-                    <Player previewUrl={previewUrl} />
-                    <StatsForNerds stats={stats}></StatsForNerds>
+                            <ul class="pure-menu-list">
+                                <li class="pure-menu-item">
+                                    <span class="pure-menu-heading">
+                                        <Stats
+                                            totalResults={totalResults}
+                                            estimatedResults={estimatedResults}
+                                            totalTracks={totalTracks}
+                                        />
+                                    </span>
+                                </li>
+                                <li class="pure-menu-item">
+                                    <a
+                                        href="#"
+                                        class="pure-menu-link pure-menu-disabled"
+                                    >
+                                        Save playlist
+                                    </a>
+                                </li>
+                                <li class="pure-menu-item">
+                                    <a
+                                        href="#"
+                                        class="pure-menu-link pure-menu-disabled"
+                                    >
+                                        Save search
+                                    </a>
+                                </li>
+                                <li class="pure-menu-item">
+                                    <a href="#" class="pure-menu-link">
+                                        <User onClick={logOut} />
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pure-g main-content">
+                    <div class="pure-u-1">
+                        <Loader isLoading={isLoading} />
+                        <Form handler={handleFormChange} values={form} />
+
+                        <TrackList
+                            tracks={tracks}
+                            values={form}
+                            onPlayClick={setPlayerSong}
+                            handleArtistClick={setQuery}
+                            handleGenreClick={setGenre}
+                        />
+                        <Player previewUrl={previewUrl} />
+                        <StatsForNerds stats={stats}></StatsForNerds>
+                    </div>
                 </div>
             </div>
         );
