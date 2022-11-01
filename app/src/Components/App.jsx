@@ -7,6 +7,7 @@ import TrackList from "./TrackList";
 import Loader from "./Loader";
 import LoginPage from "./LoginPage";
 import Menu from "./Menu";
+import StatsForNerds from "./StatsForNerds";
 
 const API_URL =
     process.env.NODE_ENV === "production" ? "/api" : "http://localhost:3000";
@@ -25,6 +26,8 @@ const App = () => {
     const [totalTracks, setTotalTracks] = useState(0);
     const [previewUrl, setPreviewUrl] = useState("");
     const [tracks, setTracks] = useState([]);
+    const [stats, setStats] = useState([]);
+
     const [form, setForm] = useState({
         query: "",
         genres: "",
@@ -88,6 +91,7 @@ const App = () => {
             .then((response) => response.json())
             .then((data) => {
                 setTotalTracks(data["tracks_with_audiofeature"]);
+                setStats(data);
             });
 
         setIsLoading((prev) => prev - 1);
@@ -189,13 +193,14 @@ const App = () => {
     // Second parameter is `[]` to run only when an empty table changes (which results in only one run)
     useEffect(() => {
         // document.getElementById("query").focus();
-        fetchInitData();
-    }, []);
+        if (isLoggedIn) fetchInitData();
+        if (!isLoggedIn) window.location.hash = "";
+    }, [isLoggedIn]);
 
     // ex componentDidUpdate()
     useEffect(() => {
-        debouncedFetchData(form);
-    }, [debouncedFetchData, form]);
+        if (isLoggedIn) debouncedFetchData(form);
+    }, [isLoggedIn, debouncedFetchData, form]);
 
     // Update state based on form's elements and their name
     const handleFormChange = (e) => {
@@ -216,10 +221,6 @@ const App = () => {
     const logOut = () => {
         setIsLoggedIn(false);
     };
-
-    useEffect(() => {
-        if (!isLoggedIn) window.location.hash = "";
-    }, [isLoggedIn]);
 
     if (isLoggedIn) {
         return (
@@ -245,6 +246,7 @@ const App = () => {
                         onPlayClick={setPlayerSong}
                     />
                     <Player previewUrl={previewUrl} />
+                    <StatsForNerds stats={stats}></StatsForNerds>
                 </div>
             </div>
         );

@@ -1,0 +1,34 @@
+#statsForNerds {
+    border: 3px solid rgb(122, 122, 122);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* min-width: 600px; */
+
+    margin: auto;
+    background-color: rgba(49, 49, 49, 0.96);
+    color: rgb(220, 220, 220);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+#statsForNerds h3 {
+    margin: 0;
+}
+
+#statsForNerds ul {
+    list-style-type: none;
+    margin: 0 0 10px 0;
+    padding: 0;
+    line-height: 24px;
+}
+
+#statsForNerds ul li {
+    margin: 0;
+}
+
+#statsForNerds button {
+    right: 0px;
+    float: right;
+}
