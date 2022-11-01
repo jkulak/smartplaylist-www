@@ -95,7 +95,9 @@ function Form(props) {
                         onChange={props.handler}
                         value={props.values.query}
                     />
-                    <label htmlFor="genres">Genres</label>
+                    <label htmlFor="genres">
+                        Genres (separate with commas)
+                    </label>
                     <input
                         type="text"
                         id="genres"

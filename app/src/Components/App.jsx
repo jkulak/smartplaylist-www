@@ -126,9 +126,10 @@ const App = () => {
             const searchQuery = form.query
                 .trim()
                 .replace(/\s\s+/g, " ")
-                .split(" ");
+                .split(",");
+            console.log("searchQuery, searchQuery");
             searchQuery.forEach((element) => {
-                url += `&or=(name.like.*${element}*,all_artists_string.like.*${element}*)`;
+                url += `&or=(name_fts_string.like.*${element}*,all_artists_string.like.*${element}*)`;
             });
         }
 
@@ -136,8 +137,9 @@ const App = () => {
             const genresQuery = form.genres
                 .trim()
                 .replace(/\s\s+/g, " ")
-                .split(" ");
+                .split(",");
             url += `&or=(`;
+            console.log("genresQuery", genresQuery);
             genresQuery.forEach((element) => {
                 url += `genres_string.like.*${element}*,`;
             });
