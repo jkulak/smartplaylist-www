@@ -1,7 +1,7 @@
 import React from "react";
-import "./Menu.css";
+import "./User.css";
 
-const Menu = (props) => {
+const User = (props) => {
     return (
         <span className="link" onClick={() => props.onClick()}>
             Log out
@@ -9,4 +9,4 @@ const Menu = (props) => {
     );
 };
 
-export default Menu;
+export default User;
