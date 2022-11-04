@@ -50,31 +50,31 @@ const App = () => {
         showColumnMainArtistFollowers: "true",
 
         minDanceability: 0,
-        maxDanceability: 1000,
+        maxDanceability: 100,
         showColumnDanceability: "false",
 
         minEnergy: 0,
-        maxEnergy: 1000,
+        maxEnergy: 100,
         showColumnEnergy: "false",
 
         minSpeechiness: 0,
-        maxSpeechiness: 1000,
+        maxSpeechiness: 100,
         showColumnSpeechiness: "false",
 
         minAcousticness: 0,
-        maxAcousticness: 1000,
+        maxAcousticness: 100,
         showColumnAcousticness: "false",
 
         minInstrumentalness: 0,
-        maxInstrumentalness: 1000,
+        maxInstrumentalness: 100,
         showColumnInstrumentalness: "false",
 
         minLiveness: 0,
-        maxLiveness: 1000,
+        maxLiveness: 100,
         showColumnLiveness: "false",
 
         minValence: 0,
-        maxValence: 1000,
+        maxValence: 100,
         showColumnValence: "true",
 
         explicit: 1,
