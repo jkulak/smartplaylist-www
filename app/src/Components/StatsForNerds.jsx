@@ -50,15 +50,57 @@ const StatsForNerds = (props) => {
                     ).toLocaleString("pl-PL")}
                 </li>
             </ul>
+            <h3>Last.fm</h3>
+            <ul>
+                <li>
+                    Artists with NULL tags:{" "}
+                    {parseInt(
+                        props.stats.artists_with_null_lastfm_tags
+                    ).toLocaleString("en-US")}
+                </li>
+                <li>
+                    Albums with NULL tags:{" "}
+                    {parseInt(
+                        props.stats.albums_with_null_lastfm_tags
+                    ).toLocaleString("en-US")}
+                </li>
+                <li>
+                    Tracks with NULL tags:{" "}
+                    {parseInt(
+                        props.stats.tracks_with_null_lastfm_tags
+                    ).toLocaleString("en-US")}
+                </li>
+            </ul>
+            <h3>Last.fm tags added</h3>
+            <ul>
+                <li>
+                    For artists:{" "}
+                    {parseInt(
+                        props.stats.artists_lastfm_tags_added
+                    ).toLocaleString("en-US")}
+                </li>
+                <li>
+                    For albums:{" "}
+                    {parseInt(
+                        props.stats.albums_lastfm_tags_added
+                    ).toLocaleString("en-US")}
+                </li>
+                <li>
+                    For tracks:{" "}
+                    {parseInt(
+                        props.stats.tracks_lastfm_tags_added
+                    ).toLocaleString("en-US")}
+                </li>
+            </ul>
             <h3>Totals</h3>
             <ul>
                 <li>
-                    Albums:{" "}
-                    {parseInt(props.stats.albums).toLocaleString("en-US")}
-                </li>
-                <li>
                     Artists:{" "}
                     {parseInt(props.stats.artists).toLocaleString("en-US")}
+                </li>
+                <li>
+                    Albums:{" "}
+                    {parseInt(props.stats.albums).toLocaleString("en-US")}
                 </li>
                 <li>
                     Tracks:{" "}
