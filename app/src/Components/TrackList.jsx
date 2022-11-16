@@ -16,7 +16,7 @@ const TrackList = (props) => {
 
     return (
         <div id="tracks">
-            <h2 class="hidden">Tracks</h2>
+            <h2 className="hidden">Tracks</h2>
             {props.tracks.length > 0 && (
                 <table className="pure-table pure-table-bordered">
                     <thead>

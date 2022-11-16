@@ -8,30 +8,29 @@ import Loader from "./Loader";
 import LoginPage from "./LoginPage";
 import User from "./User";
 import StatsForNerds from "./StatsForNerds";
-
-const API_URL =
-    process.env.NODE_ENV === "production" ? "/api" : "http://localhost:3000";
-
-const FASTAPI_URL =
-    process.env.NODE_ENV === "production"
-        ? "/fastapi"
-        : "http://localhost:8008";
-const FETCH_DELAY = 300;
+import SavePlaylist from "./SavePlaylist";
+import {
+    FASTAPI_URL,
+    API_URL,
+    FETCH_DELAY,
+    DEFAULT_TRACK_LIST_LENGTH,
+} from "./Const";
 
 const App = () => {
     const [isLoading, setIsLoading] = useState(0);
-    const [isLoggedIn, setIsLoggedIn] = useState(0);
+    const [spotifyAccessToken, setSpotifyAccessToken] = useState("");
     const [totalResults, setTotalResults] = useState("🤷🏽");
     const [estimatedResults, setEstimatedResults] = useState("🤷🏽");
     const [totalTracks, setTotalTracks] = useState(0);
     const [previewUrl, setPreviewUrl] = useState("");
     const [tracks, setTracks] = useState([]);
     const [stats, setStats] = useState([]);
+    // const [accessToken, setAccessToken] = useState("");
 
     const [form, setForm] = useState({
-        query: "mok",
+        query: "",
         genres: "bass",
-        releaseDate: "2021-01-01",
+        releaseDate: "2022-01-01",
 
         minTempo: 80,
         maxTempo: 210,
@@ -98,8 +97,6 @@ const App = () => {
     };
 
     const fetchData = (form) => {
-        const LIMIT = 100;
-
         let url = API_URL;
         url += `/tracks`;
         url += `?select=spotify_id,all_artists,name,genres,release_date,tempo,popularity,danceability,energy,speechiness,acousticness,instrumentalness,liveness,valence,main_artist_popularity,main_artist_followers,key,preview_url`;
@@ -109,7 +106,7 @@ const App = () => {
         }
 
         url += `&order=release_date.desc,popularity.desc,spotify_id.asc`;
-        url += `&limit=${LIMIT}`;
+        url += `&limit=${DEFAULT_TRACK_LIST_LENGTH}`;
         url += `&tempo=gte.${form.minTempo}&tempo=lte.${form.maxTempo}`;
         url += `&popularity=gte.${form.minPopularity}&popularity=lte.${form.maxPopularity}`;
         url += `&main_artist_popularity=gte.${form.minMainArtistPopularity}&main_artist_popularity=lte.${form.maxMainArtistPopularity}`;
@@ -187,14 +184,14 @@ const App = () => {
     // Second parameter is `[]` to run only when an empty table changes (which results in only one run)
     useEffect(() => {
         // document.getElementById("query").focus();
-        if (isLoggedIn) fetchInitData();
-        if (!isLoggedIn) window.location.hash = "";
-    }, [isLoggedIn]);
+        if ("" !== spotifyAccessToken) fetchInitData();
+        if (!spotifyAccessToken) window.location.hash = "";
+    }, [spotifyAccessToken]);
 
     // ex componentDidUpdate()
     useEffect(() => {
-        if (isLoggedIn) debouncedFetchData(form);
-    }, [isLoggedIn, debouncedFetchData, form]);
+        if ("" !== spotifyAccessToken) debouncedFetchData(form);
+    }, [spotifyAccessToken, debouncedFetchData, form]);
 
     // Update state based on form's elements and their name
     const handleFormChange = (e) => {
@@ -220,8 +217,8 @@ const App = () => {
         }));
     };
 
-    const logInUser = (user) => {
-        setIsLoggedIn(user);
+    const logInUser = (token) => {
+        setSpotifyAccessToken(token);
     };
 
     const setPlayerSong = (url) => {
@@ -229,22 +226,22 @@ const App = () => {
     };
 
     const logOut = () => {
-        setIsLoggedIn(false);
+        setSpotifyAccessToken("");
     };
 
-    if (isLoggedIn) {
+    if (spotifyAccessToken) {
         return (
             <div className="App">
-                <div class="pure-g">
-                    <div class="pure-u-1">
-                        <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-                            <span class="pure-menu-heading">
+                <div className="pure-g">
+                    <div className="pure-u-1">
+                        <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                            <span className="pure-menu-heading">
                                 🎧 Smart Playlists
                             </span>
 
-                            <ul class="pure-menu-list">
-                                <li class="pure-menu-item">
-                                    <span class="pure-menu-heading">
+                            <ul className="pure-menu-list">
+                                <li className="pure-menu-item">
+                                    <span className="pure-menu-heading">
                                         <Stats
                                             totalResults={totalResults}
                                             estimatedResults={estimatedResults}
@@ -252,24 +249,29 @@ const App = () => {
                                         />
                                     </span>
                                 </li>
-                                <li class="pure-menu-item">
-                                    <a
-                                        href="#"
-                                        class="pure-menu-link pure-menu-disabled"
-                                    >
-                                        Save playlist
-                                    </a>
+                                <li className="pure-menu-item">
+                                    <SavePlaylist
+                                        accessToken={spotifyAccessToken}
+                                        ids={Array.from(
+                                            tracks,
+                                            (track) => track.spotify_id
+                                        )}
+                                        name={"smartplaylist"}
+                                    />
                                 </li>
-                                <li class="pure-menu-item">
+                                <li className="pure-menu-item">
                                     <a
-                                        href="#"
-                                        class="pure-menu-link pure-menu-disabled"
+                                        href="#/save-search"
+                                        className="pure-menu-link pure-menu-disabled"
                                     >
                                         Save search
                                     </a>
                                 </li>
-                                <li class="pure-menu-item">
-                                    <a href="#" class="pure-menu-link">
+                                <li className="pure-menu-item">
+                                    <a
+                                        href="#/logout"
+                                        className="pure-menu-link"
+                                    >
                                         <User onClick={logOut} />
                                     </a>
                                 </li>
@@ -278,8 +280,8 @@ const App = () => {
                     </div>
                 </div>
 
-                <div class="pure-g main-content">
-                    <div class="pure-u-1">
+                <div className="pure-g main-content">
+                    <div className="pure-u-1">
                         <Loader isLoading={isLoading} />
                         <Form handler={handleFormChange} values={form} />
 

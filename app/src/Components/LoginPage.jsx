@@ -42,14 +42,14 @@ const LoginPage = (props) => {
                 window.location.hash
             );
             localStorage.clear();
-            localStorage.setItem("accessToken", access_token);
-            localStorage.setItem("expiresIn", expires_in);
-            localStorage.setItem("tokenType", token_type);
+            localStorage.setItem("access_token", access_token);
+            localStorage.setItem("expires_in", expires_in);
+            localStorage.setItem("token_type", token_type);
             window.location.hash = "";
 
             // get user id from the API, if correct - we are logged in
             // or skip for now
-            props.logInUser(true);
+            props.logInUser(access_token);
         }
     });
     return (
