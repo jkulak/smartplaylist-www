@@ -83,7 +83,7 @@ const App = () => {
 
     const fetchInitData = () => {
         let url = FASTAPI_URL;
-        url += `/init`;
+        url += "/init";
 
         setIsLoading((prev) => prev + 1);
         fetch(url)
@@ -97,6 +97,73 @@ const App = () => {
     };
 
     const fetchData = (form) => {
+        let url = FASTAPI_URL;
+        url += "/tracks";
+        url += "?_";
+
+        if (form.query.length > 0) {
+            url += "&nam=";
+            const searchQuery = form.query.toLowerCase().split(",");
+            searchQuery.forEach((element) => {
+                url += element.trim() + ",";
+            });
+        }
+
+        if (form.genres.length > 0) {
+            url += "&gen=";
+            const searchQuery = form.genres.toLowerCase().split(",");
+            searchQuery.forEach((element) => {
+                url += element.trim() + ",";
+            });
+        }
+
+        url += `&rel=${form.releaseDate}`;
+
+        url += `&tem=${form.minTempo},${form.maxTempo}`;
+        url += `&pop=${form.minPopularity},${form.maxPopularity}`;
+        url += `&map=${form.minMainArtistPopularity},${form.maxMainArtistPopularity}`;
+        url += `&maf=${form.minMainArtistFollowers},${form.maxMainArtistFollowers}`;
+        url += `&dan=${form.minDanceability},${form.maxDanceability}`;
+        url += `&ene=${form.minEnergy},${form.maxEnergy}`;
+        url += `&spe=${form.minSpeechiness},${form.maxSpeechiness}`;
+        url += `&aco=${form.minAcousticness},${form.maxAcousticness}`;
+        url += `&ins=${form.minInstrumentalness},${form.maxInstrumentalness}`;
+        url += `&liv=${form.minLiveness},${form.maxLiveness}`;
+        url += `&val=${form.minValence},${form.maxValence}`;
+        url += `&key=${form.key},${form.key}`;
+
+        // if (form.genres.length > 0) {
+        //     const genresQuery = form.genres.toLowerCase().split(",");
+        //     url += `&or=(`;
+        //     genresQuery.forEach((element) => {
+        //         url += `genres_string.like.*${element.trim()}*,`;
+        //     });
+        //     url = url.slice(0, -1);
+        //     url += `)`;
+        // }
+
+        // // Use `or` or `and` depending on the logic you need (genre has any or all of the strings)
+
+        url += `&order=rel,des`;
+        url += `&limit=${DEFAULT_TRACK_LIST_LENGTH}`;
+
+        setIsLoading((prev) => prev + 1);
+        fetch(url, {
+            headers: { Prefer: "count=estimated" },
+        })
+            .then((response) => {
+                // let count = response.headers.get("Content-Range");
+                // setEstimatedResults(parseInt(count.split("/")[1]));
+                setIsLoading((prev) => prev - 1);
+                return response.json();
+            })
+            .then((data) => {
+                setTracks(data);
+                setTotalResults(data.length);
+            });
+    };
+
+    const fetchDataPrev = (form) => {
         let url = API_URL;
         url += `/tracks`;
         url += `?select=spotify_id,all_artists,name,genres,release_date,tempo,popularity,danceability,energy,speechiness,acousticness,instrumentalness,liveness,valence,main_artist_popularity,main_artist_followers,key,preview_url`;
