@@ -9,12 +9,7 @@ import LoginPage from "./LoginPage";
 import User from "./User";
 import StatsForNerds from "./StatsForNerds";
 import SavePlaylist from "./SavePlaylist";
-import {
-    FASTAPI_URL,
-    API_URL,
-    FETCH_DELAY,
-    DEFAULT_TRACK_LIST_LENGTH,
-} from "./Const";
+import { FASTAPI_URL, FETCH_DELAY, DEFAULT_TRACK_LIST_LENGTH } from "./Const";
 
 const App = () => {
     const [isLoading, setIsLoading] = useState(0);
@@ -97,9 +92,7 @@ const App = () => {
     };
 
     const fetchData = (form) => {
-        let url = FASTAPI_URL;
-        url += "/tracks";
-        url += "?_";
+        let url = "?_";
 
         if (form.query.length > 0) {
             url += "&nam=";
@@ -148,79 +141,27 @@ const App = () => {
         url += `&limit=${DEFAULT_TRACK_LIST_LENGTH}`;
 
         setIsLoading((prev) => prev + 1);
-        fetch(url, {
-            headers: { Prefer: "count=estimated" },
-        })
+        fetch(FASTAPI_URL + "/tracks" + url)
             .then((response) => {
-                // let count = response.headers.get("Content-Range");
-                // setEstimatedResults(parseInt(count.split("/")[1]));
                 setIsLoading((prev) => prev - 1);
                 return response.json();
             })
             .then((data) => {
                 setTracks(data);
-                setTotalResults(data.length);
+                setTotalResults(data.length + 1);
             });
-    };
 
-    const fetchDataPrev = (form) => {
-        let url = API_URL;
-        url += `/tracks`;
-        url += `?select=spotify_id,all_artists,name,genres,release_date,tempo,popularity,danceability,energy,speechiness,acousticness,instrumentalness,liveness,valence,main_artist_popularity,main_artist_followers,key,preview_url`;
-
-        if (form.followed) {
-            url += `,user_followed_artist(user_id)`;
+        if (DEFAULT_TRACK_LIST_LENGTH === totalResults) {
+            // setIsLoading((prev) => prev + 1);
+            fetch(FASTAPI_URL + "/tracks/count" + url)
+                .then((response) => {
+                    // setIsLoading((prev) => prev - 1);
+                    return response.json();
+                })
+                .then((data) => {
+                    setEstimatedResults(data);
+                });
         }
-
-        url += `&order=release_date.desc,popularity.desc,spotify_id.asc`;
-        url += `&limit=${DEFAULT_TRACK_LIST_LENGTH}`;
-        url += `&tempo=gte.${form.minTempo}&tempo=lte.${form.maxTempo}`;
-        url += `&popularity=gte.${form.minPopularity}&popularity=lte.${form.maxPopularity}`;
-        url += `&main_artist_popularity=gte.${form.minMainArtistPopularity}&main_artist_popularity=lte.${form.maxMainArtistPopularity}`;
-        url += `&main_artist_followers=gte.${form.minMainArtistFollowers}&main_artist_followers=lte.${form.maxMainArtistFollowers}`;
-        url += `&danceability=gte.${form.minDanceability}&danceability=lte.${form.maxDanceability}`;
-        url += `&energy=gte.${form.minEnergy}&energy=lte.${form.maxEnergy}`;
-        url += `&speechiness=gte.${form.minSpeechiness}&speechiness=lte.${form.maxSpeechiness}`;
-        url += `&acousticness=gte.${form.minAcousticness}&acousticness=lte.${form.maxAcousticness}`;
-        url += `&instrumentalness=gte.${form.minInstrumentalness}&instrumentalness=lte.${form.maxInstrumentalness}`;
-        url += `&liveness=gte.${form.minLiveness}&liveness=lte.${form.maxLiveness}`;
-        url += `&valence=gte.${form.minValence}&valence=lte.${form.maxValence}`;
-
-        if (form.query.length > 0) {
-            const searchQuery = form.query.toLowerCase().split(",");
-            searchQuery.forEach((element) => {
-                url += `&or=(name_fts_string.like.*${element.trim()}*,all_artists_string.like.*${element.trim()}*)`;
-            });
-        }
-
-        if (form.genres.length > 0) {
-            const genresQuery = form.genres.toLowerCase().split(",");
-            url += `&or=(`;
-            genresQuery.forEach((element) => {
-                url += `genres_string.like.*${element.trim()}*,`;
-            });
-            url = url.slice(0, -1);
-            url += `)`;
-        }
-
-        // Use `or` or `and` depending on the logic you need (genre has any or all of the strings)
-        url += `&release_date=gte.${form.releaseDate}`;
-        if (form.key !== "any") url += `&key=eq.${form.key}`;
-
-        setIsLoading((prev) => prev + 1);
-        fetch(url, {
-            headers: { Prefer: "count=estimated" },
-        })
-            .then((response) => {
-                let count = response.headers.get("Content-Range");
-                setEstimatedResults(parseInt(count.split("/")[1]));
-                setIsLoading((prev) => prev - 1);
-                return response.json();
-            })
-            .then((data) => {
-                setTracks(data);
-                setTotalResults(data.length);
-            });
     };
 
     // Debouncing with arguments

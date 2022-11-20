@@ -14,5 +14,9 @@
 
 #tracks .link {
     cursor: pointer;
+    text-decoration: none;
+}
+
+#tracks .link:hover {
     text-decoration: underline;
 }
