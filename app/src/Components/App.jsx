@@ -1,15 +1,15 @@
+import React, { useEffect, useMemo, useState } from "react";
 import "./App.css";
-import React, { useEffect, useState, useMemo } from "react";
+import { DEFAULT_TRACK_LIST_LENGTH, FASTAPI_URL, FETCH_DELAY } from "./Const";
 import Form from "./Form";
-import Player from "./Player";
-import Stats from "./Stats";
-import TrackList from "./TrackList";
 import Loader from "./Loader";
 import LoginPage from "./LoginPage";
-import User from "./User";
-import StatsForNerds from "./StatsForNerds";
+import Player from "./Player";
 import SavePlaylist from "./SavePlaylist";
-import { FASTAPI_URL, FETCH_DELAY, DEFAULT_TRACK_LIST_LENGTH } from "./Const";
+import Stats from "./Stats";
+import StatsForNerds from "./StatsForNerds";
+import TrackList from "./TrackList";
+import User from "./User";
 
 const App = () => {
     const [isLoading, setIsLoading] = useState(0);

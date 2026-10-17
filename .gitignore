@@ -24,3 +24,6 @@ yarn-error.log*
 
 _NOTES*
 .vscode/
+
+# Local tooling
+.claude/
